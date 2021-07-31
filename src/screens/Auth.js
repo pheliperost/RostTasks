@@ -17,8 +17,8 @@ import { server,showError,showSucess } from '../common';
 export default class Auth extends Component {
     state = {
         name: '',
-        email: '',
-        password: '',
+        email: 'pipoca@vcdisse.com',
+        password: '123',
         confirmPassword: '',
         stageNew: false
     }
