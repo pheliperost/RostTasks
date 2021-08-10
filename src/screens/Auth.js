@@ -19,7 +19,7 @@ export default class Auth extends Component {
         name: 'PhelipeRost',
         email: 'phelipe_rost@hotmail.com',
         password: '123',
-        confirmPassword: '',
+        confirmPassword: '123',
         stageNew: false
     }
 

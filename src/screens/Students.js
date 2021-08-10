@@ -1,35 +1,104 @@
 import React, {Component} from 'react'
+import { 
+        View, 
+        TextInput,
+        StyleSheet,
+        SafeAreaView,
+        TouchableOpacity,
+        Text,
+        Alert
+     } from 'react-native';
 import { Rating  } from "react-native-elements";
 
+import DateTimePicker from '@react-native-community/datetimepicker'
+import commonStyles from '../commonStyles';
+import moment from 'moment'
+
 export default class Students extends Component{
+    state = {
+        name: 'Aluno1',
+        date: new Date()
+       
+    }
+
+    save = ()=>{
+        Alert.alert(this.state.name);
+    }
+
+    
+    getDatePicker = () => {
+        let datePicker = <DateTimePicker 
+            value={this.state.date}
+            onChange={(_,date)=>this.setState({date, showDatePicker: false})}
+            mode='date'/>
+            
+            const dateString =  moment(this.state.date).format('dddd. D [de] MMMM [de] YYYY')
+
+        if(Platform.OS === 'android'){
+            datePicker = (
+                <View>
+                    <TouchableOpacity onPress={() =>  this.setState({showDatePicker: true})}>
+                        <Text style={styles.date}>
+                            {dateString}
+                        </Text>
+                    </TouchableOpacity>
+                    {this.state.showDatePicker && datePicker}
+                </View>
+            )
+        }
+
+            return datePicker
+    }
+
     render(){
         return (
-            <Rating
-              fractions={0}
-              imageSize={70}
-              minValue={0}
-              onFinishRating={() =>
-                console.log("onFinishRating()")
-              }
-              onStartRating={() => console.log("onStartRating()")}
-              ratingBackgroundColor="#FFF"
-              ratingColor="#FF0"
-              ratingCount={5}
-              ratingImage="star"
-              ratingTextColor="#222"
-              reviews={[
-                "Terrible",
-                "Bad",
-                "Okay",
-                "Good",
-                "Great"
-              ]}
-              showRating
-              startingValue={0}
-              style={{}}
-              type="star"
-            />
+            <SafeAreaView>
+                <TextInput style={styles.input}
+                    placeholder="Nome do estudante"
+                    value={this.state.name}
+                    onChangeText={name => this.setState({name})}/>
+
+                    {this.getDatePicker()}
+
+                    <TouchableOpacity onPress={this.save}>
+                        <View style={styles.button}>
+                            <Text style={styles.buttonText}>
+                            {'Salvar'}
+                            </Text>
+                        </View>
+                    </TouchableOpacity>
+            </SafeAreaView>
         );
     }
 }
 
+
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1 
+    },
+    input: {
+        height: 40,
+        margin: 12,
+        borderWidth: 1,
+        padding: 10,
+      },
+    button:{
+        backgroundColor: '#080',
+        marginTop: 10,
+        padding: 10,
+        alignItems: 'center',
+        borderRadius: 7
+    },
+    buttonText:{
+        fontFamily: commonStyles.fontFamily,
+        color: '#FFF',
+        fontSize: 20
+    },
+    date:{
+        fontFamily: commonStyles.fontFamily,
+        fontSize: 20,
+        marginLeft: 15,
+    }
+})
