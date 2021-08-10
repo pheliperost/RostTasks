@@ -6,6 +6,7 @@ import Auth from './screens/Auth'
 import TaskList from './screens/TaskList'
 import Menu from './screens/Menu'
 import commonStyles from './commonStyles'
+import Students from './screens/Students'
 
 const menuConfig ={
     initialRouteName: 'Today',
@@ -54,6 +55,14 @@ const menuRoutes = {
         screen: props => <TaskList title='Mês' daysAhead={30} {...props} />,
         navigationOptions:{
             title: 'Mês'
+        }
+        
+    },
+    Students:{
+        name: 'Students',
+        screen: props => <Students title='STu' {...props} />,
+        navigationOptions:{
+            title: 'Alunos'
         }
         
     },
