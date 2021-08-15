@@ -8,7 +8,8 @@ import {
         Text,
         Alert
      } from 'react-native';
-import { Rating  } from "react-native-elements";
+import axios from 'axios'
+import { server, showError } from '../common'
 
 import DateTimePicker from '@react-native-community/datetimepicker'
 import commonStyles from '../commonStyles';
@@ -21,8 +22,30 @@ export default class Students extends Component{
        
     }
 
-    save = ()=>{
-        Alert.alert(this.state.name);
+    save = async()=>{
+       /* if(!this.state.name || !this.state.name.trim()){
+            Alert.alert('Dados Inválidos','Nome não informado!')
+            return
+        }
+        */
+
+        try{
+           // Alert.alert(this.state.date.toString())
+          
+            await axios.post(`${server}/students`,{
+                name: this.state.name,
+                registryDate: this.state.date,
+                active: false
+            })           
+
+          
+            this.setState({ showAddTask: false}, this.loadTasks)
+
+        }catch(e){
+           // showError(e)
+           console.error(e)
+        }
+        
     }
 
     

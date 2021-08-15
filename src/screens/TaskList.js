@@ -96,7 +96,7 @@ export default class TaskList extends Component{
            
             await axios.post(`${server}/tasks`,{
                 desc: newTask.desc,
-                estimateAt: newTask.date
+                date: newTask.date
             })           
 
             this.setState({ showAddTask: false}, this.loadTasks)
