@@ -10,6 +10,7 @@ import {
      } from 'react-native';
 import axios from 'axios'
 import { server, showError } from '../common'
+import { Switch } from 'react-native-elements';
 
 import DateTimePicker from '@react-native-community/datetimepicker'
 import commonStyles from '../commonStyles';
@@ -17,8 +18,10 @@ import moment from 'moment'
 
 export default class Students extends Component{
     state = {
-        name: 'Aluno1',
-        date: new Date()
+        name: '',
+        date: new Date(),
+        active: true
+
        
     }
 
@@ -30,12 +33,11 @@ export default class Students extends Component{
         */
 
         try{
-           // Alert.alert(this.state.date.toString())
-          
+            
             await axios.post(`${server}/students`,{
                 name: this.state.name,
                 registryDate: this.state.date,
-                active: false
+                active: this.state.active
             })           
 
           
@@ -82,6 +84,10 @@ export default class Students extends Component{
                     onChangeText={name => this.setState({name})}/>
 
                     {this.getDatePicker()}
+
+                    
+                    
+                    <Switch value={this.state.active} onValueChange={active => this.setState({active})} color="orange" />
 
                     <TouchableOpacity onPress={this.save}>
                         <View style={styles.button}>
