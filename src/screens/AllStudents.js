@@ -23,6 +23,7 @@ import monthImage from '../../assets/imgs/month.jpg'
 import commonStyles from '../commonStyles'
 import Task from '../components/Task'
 import StudentItemList from '../components/StudentItemList'
+import Students from './Students'
 
 
 const initialState = { 
@@ -76,9 +77,9 @@ export default class AllStudents extends Component{
         }))
     }
 
-    toggleTask = async taskId => {
+    toggleStudentStatus = async taskId => {
         try{
-            await axios.put(`${server}/task/${taskId}/toggle`)
+            await axios.put(`${server}/students/${taskId}/toggle`)
             this.loadStudents()
         }catch(e){
             showError(e)
@@ -110,7 +111,7 @@ export default class AllStudents extends Component{
     deleteTask = async taskId => {
 
         try{           
-            await axios.delete(`${server}/tasks/${taskId}`)           
+            await axios.delete(`${server}/students/${taskId}`)           
             this.loadStudents()
         }catch(e){
             showError(e)
@@ -164,7 +165,7 @@ export default class AllStudents extends Component{
                 <View style={styles.taskList}>
                    <FlatList data={this.state.students}
                         keyExtractor={item => `${item.id}`}
-                        renderItem={({item})=> <StudentItemList {...item} toggleTask={this.toggleTask} onDelete={this.deleteTask} />}
+                        renderItem={({item})=> <StudentItemList {...item} toggleStudentStatus={this.toggleStudentStatus} onDelete={this.deleteTask} />}
                         />
                 </View>
                 <TouchableOpacity style={

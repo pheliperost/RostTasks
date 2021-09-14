@@ -14,10 +14,10 @@ import 'moment/locale/pt-br'
 
 export default props =>{
     
-    const doneOrNotStyle = props.doneAt != null ? 
+    const doneOrNotStyle = !props.active ? 
     {textDecorationLine: 'line-through'} : {}
 
-    const date = props.doneAt ? props.doneAt : props.estimateAt
+    //const date = props.doneAt ? props.doneAt : props.estimateAt
     const formattedDate = moment(props.registryDate).locale('pt-br')
         .format('ddd, D [de] MMMM')
 
@@ -45,9 +45,9 @@ export default props =>{
             onSwipeableLeftOpen={() => props.onDelete && props.onDelete(props.id)}>
             <View style={styles.container}>
                 <TouchableWithoutFeedback
-                    onPress={()=> props.toggleTask(props.id)}>
+                    onPress={()=> props.toggleStudentStatus(props.id)}>
                     <View style={styles.checkContainer}>
-                        {getCheckView(props.doneAt)}
+                        {getCheckView(props.active)}
                     </View>
                 </TouchableWithoutFeedback>
                 <View>
@@ -61,8 +61,8 @@ export default props =>{
 
 }
 
-function getCheckView(doneAt){
-    if(doneAt != null){
+function getCheckView(active){
+    if(active){
         return(
             <View style={styles.done}>
                 <Icon name='check' size={20}
