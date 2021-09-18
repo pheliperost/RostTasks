@@ -3,8 +3,11 @@ import { Modal,View, StyleSheet, Text, TouchableWithoutFeedback, TouchableOpacit
 import commonStyles from '../commonStyles'
 import DateTimePicker from '@react-native-community/datetimepicker'
 import moment from 'moment'
+import SelectDropdown from 'react-native-select-dropdown'
 
 const initialState = { desc: '', date: new Date(), showDatePicker: false}
+
+const countries = ["Egypt", "Canada", "Australia", "Ireland"]
 
 export default class AddTask extends Component{
 
@@ -65,6 +68,26 @@ export default class AddTask extends Component{
                         placeholder='informe a descrição...' 
                         onChangeText={desc => this.setState({desc})}
                         value={this.state.desc}/>
+
+                        <SelectDropdown
+                            data={countries}
+                            onSelect={(selectedItem, index) => {
+                                console.log(selectedItem, index)
+                            }}
+                            buttonTextAfterSelection={(selectedItem, index) => {
+                                // text represented after item is selected
+                                // if data array is an array of objects then return selectedItem.property to render after item is selected
+                                return selectedItem
+                            }}
+                            rowTextForSelection={(item, index) => {
+                                // text represented for each item in dropdown
+                                // if data array is an array of objects then return item.property to represent item in dropdown
+                                return item
+                            }}
+                        />
+
+
+
                         {this.getDatePicker()}
                     <View style={styles.buttons}>
                         <TouchableOpacity onPress={this.props.onCancel}>
