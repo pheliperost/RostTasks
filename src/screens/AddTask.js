@@ -3,7 +3,8 @@ import { Modal,View, StyleSheet, Text, TouchableWithoutFeedback, TouchableOpacit
 import commonStyles from '../commonStyles'
 import DateTimePicker from '@react-native-community/datetimepicker'
 import moment from 'moment'
-import ModalSelector from 'react-native-modal-selector'
+import {Picker} from '@react-native-picker/picker';
+
 
 import { server, showError } from '../common'
 import axios from 'axios'
@@ -85,12 +86,24 @@ export default class AddTask extends Component{
                         onChangeText={desc => this.setState({desc})}
                         value={this.state.desc}/>
 
-                        <ModalSelector
-                            data={this.state.eventtype}                            
-                            keyExtractor= {item => item.id}
-                            labelExtractor= {item => item.type}
-                            initValue="Selecione o tipo de evento!">
-                        </ModalSelector>
+                        <Picker
+                         style={{ width: "100%" }}
+                         mode="dropdown"
+                        selectedValue={this.state.evtSelected}                        
+                        onValueChange={(itemValue, itemIndex) =>
+                            this.setState({
+                                evtSelected: itemValue
+                            })
+                            
+                        }>
+                            {this.state.eventtype !== "" ? (
+                                this.state.eventtype.map(evt => {
+                                    return <Picker.Item label={evt.type} value={evt.id} />;
+                                })
+                            ) : (
+                                <Picker.Item label="Loading..." value="0" />
+                            )}
+                        </Picker>
 
                         {this.getDatePicker()}
                     <View style={styles.buttons}>
