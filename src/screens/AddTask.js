@@ -9,7 +9,7 @@ import {Picker} from '@react-native-picker/picker';
 import { server, showError } from '../common'
 import axios from 'axios'
 
-const initialState = { desc: '', date: new Date(), showDatePicker: false, eventtype: ''}
+const initialState = { desc: '', date: new Date(), showDatePicker: false, eventtype: '', studentsDropDown: ''}
 
 const contries = ['Deustchland', 'England']
 
@@ -18,6 +18,12 @@ export default class AddTask extends Component{
     state = {
         ...initialState
 
+    }
+
+    componentDidMount = async () =>{
+        
+       this.loadEventTypeItems()
+       this.loadStudentsItems()
     }
 
     save = () =>{
@@ -64,8 +70,17 @@ export default class AddTask extends Component{
         }
     }
 
+    loadStudentsItems = async () => {
+        try{
+            
+            const res = await axios.get(`${server}/students`)
+            this.setState({studentsDropDown: res.data})            
+        }catch(e){
+            showError(e)
+        }        
+    }
+
     render(){
-       this.loadEventTypeItems()
         return(
             <Modal transparent={true}
                 visible={this.props.isVisible}
@@ -87,23 +102,46 @@ export default class AddTask extends Component{
                         value={this.state.desc}/>
 
                         <Picker
-                         style={{ width: "100%" }}
-                         mode="dropdown"
-                        selectedValue={this.state.evtSelected}                        
-                        onValueChange={(itemValue, itemIndex) =>
-                            this.setState({
-                                evtSelected: itemValue
-                            })
-                            
-                        }>
+                            style={{ width: "100%" }}
+                            mode="dropdown"
+                            selectedValue={this.state.evtSelected}                        
+                            onValueChange={(itemValue, itemIndex) =>
+                                this.setState({
+                                    evtSelected: itemValue
+                                })    
+                            }
+                        >
                             {this.state.eventtype !== "" ? (
                                 this.state.eventtype.map(evt => {
-                                    return <Picker.Item label={evt.type} value={evt.id} />;
+                                    return <Picker.Item label={evt.type} value={evt.value} key={evt.id} />;
                                 })
                             ) : (
                                 <Picker.Item label="Loading..." value="0" />
                             )}
                         </Picker>
+
+
+                        <Picker
+                            style={{ width: "100%" }}
+                            mode="dropdown"
+                            selectedValue={this.state.studentselected}                        
+                            onValueChange={(itemValue1, itemIndex1) =>
+                                this.setState({
+                                    studentselected: itemValue1
+                                })
+                            }
+                        >
+                            {this.state.studentsDropDown !== "" ? (
+                                this.state.studentsDropDown.map(std => {
+                                    return <Picker.Item label={std.name} value={std.id} key={std.id} />;
+                                })
+                            ) : (
+                                <Picker.Item label="Loading..." value="0" />
+                            )}
+                        </Picker>
+
+                       
+                
 
                         {this.getDatePicker()}
                     <View style={styles.buttons}>
