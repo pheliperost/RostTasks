@@ -3,15 +3,14 @@ import { Modal,View, StyleSheet, Text, TouchableWithoutFeedback, TouchableOpacit
 import commonStyles from '../commonStyles'
 import DateTimePicker from '@react-native-community/datetimepicker'
 import moment from 'moment'
-import SelectDropdown from 'react-native-select-dropdown'
-import ModalSelector from 'react-native-modal-selector-searchable'
+import ModalSelector from 'react-native-modal-selector'
 
 import { server, showError } from '../common'
 import axios from 'axios'
 
-const initialState = { desc: '', date: new Date(), showDatePicker: false}
+const initialState = { desc: '', date: new Date(), showDatePicker: false, eventtype: ''}
 
-const countries = ["Egypt", "Canada", "Australia", "Ireland"]
+const contries = ['Deustchland', 'England']
 
 export default class AddTask extends Component{
 
@@ -57,12 +56,8 @@ export default class AddTask extends Component{
 
     loadEventTypeItems = async () => {
         try{
-            const res = await axios.get(`${server}/eventtype`)
-
-          
-            this.setState({eventtype: res.data})
-            //console.log(res.data.body)
-            
+            const res = await axios.get(`${server}/eventtype`)          
+            this.setState({eventtype: res.data})            
         }catch(e){
             showError(e)
         }
@@ -91,12 +86,11 @@ export default class AddTask extends Component{
                         value={this.state.desc}/>
 
                         <ModalSelector
-                            data={this.state.eventtype}
+                            data={this.state.eventtype}                            
                             keyExtractor= {item => item.id}
                             labelExtractor= {item => item.type}
-                        />
-
-
+                            initValue="Selecione o tipo de evento!">
+                        </ModalSelector>
 
                         {this.getDatePicker()}
                     <View style={styles.buttons}>
