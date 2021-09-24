@@ -15,7 +15,7 @@ import Icon from 'react-native-vector-icons/FontAwesome'
 
 import { server, showError } from '../common'
 import AsyncStorage from "@react-native-community/async-storage"
-import AddTask from './AddTask'
+import AddEvent from './AddTask'
 import todayImage from '../../assets/imgs/today.jpg'
 import tomorrowImage from '../../assets/imgs/tomorrow.jpg'
 import weekImage from '../../assets/imgs/week.jpg'
@@ -86,17 +86,25 @@ export default class TaskList extends Component{
         }
     }
 
-    addTask = async newTask =>{
-        if(!newTask.desc || !newTask.desc.trim()){
+    addTask = async newEvent =>{
+      /*  if(!newTask.desc || !newTask.desc.trim()){
             Alert.alert('Dados Inválidos','Descrição não informada!')
             return
         }
-
+*/
         try{
            
-            await axios.post(`${server}/tasks`,{
-                desc: newTask.desc,
-                date: newTask.date
+            await axios.post(`${server}/events`,{
+                date: newEvent.date,
+                StartedAtSch: newEvent.StartedAtSch,
+                startedAt: newEvent.startedAt,
+                endedAt: newEvent.endedAt,
+                endedAtSch: newEvent.endedAtSch,
+                eventType:newEvent.eventType,
+                Obs:"teste",
+                student:newEvent.student
+
+
             })           
 
             this.setState({ showAddTask: false}, this.loadTasks)
@@ -141,7 +149,7 @@ export default class TaskList extends Component{
         const today = moment().locale('pt-br').format('ddd, D [de] MMMM')
         return(
             <View style={styles.container}>
-                <AddTask isVisible={this.state.showAddTask}
+                <AddEvent isVisible={this.state.showAddTask}
                     onCancel={() => this.setState({showAddTask: false})}
                     onSave={this.addTask}/>
                 <ImageBackground source={this.getImage()}

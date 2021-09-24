@@ -9,11 +9,28 @@ import {Picker} from '@react-native-picker/picker';
 import { server, showError } from '../common'
 import axios from 'axios'
 
-const initialState = { desc: '', date: new Date(), showDatePicker: false, eventtype: '', studentsDropDown: ''}
+const initialState = { 
+        desc: '', 
+        date: new Date(), 
+        showDatePicker: false, 
+        eventtype: '', 
+        studentsDropDown: '',
+        StartedAtSch:'',
+        endedAtSch:'',
+        startedAt:'',
+        endedAt:'',
+        Obs: 'teste',
+        eventType: '',
+        student: '',
+        evtSelected: '',
+        studentselected: ''
 
-const contries = ['Deustchland', 'England']
+    }
 
-export default class AddTask extends Component{
+const today = moment();
+const datetimeNow = today.format('YYYY-MM-DD HH:MM:SS')
+
+export default class AddEvent extends Component{
 
     state = {
         ...initialState
@@ -27,12 +44,20 @@ export default class AddTask extends Component{
     }
 
     save = () =>{
-        const newTask = {
-            desc: this.state.desc,
-            date: this.state.date
-        }
+        const newEvent = {
+            date: this.state.date,
+            StartedAtSch: datetimeNow,
+            startedAt: datetimeNow,
+            endedAt: datetimeNow,
+            endedAtSch: datetimeNow,
+            eventType: this.state.evtSelected,
+            Obs: 'teste',            
+            student: this.state.studentselected
 
-        this.props.onSave && this.props.onSave(newTask)
+        }
+      
+
+        this.props.onSave && this.props.onSave(newEvent)
         this.setState({...initialState})
     }
 
@@ -82,6 +107,8 @@ export default class AddTask extends Component{
 
     render(){
         return(
+            
+
             <Modal transparent={true}
                 visible={this.props.isVisible}
                 onRequestClose={this.props.onCancel}
@@ -93,13 +120,9 @@ export default class AddTask extends Component{
                 </TouchableWithoutFeedback>
 
                 <View style={styles.container}>
-                    <Text style={styles.header}>Nova Tarefa</Text>
+                    <Text style={styles.header}>Novo Evento</Text>
 
-
-                    <TextInput style={styles.input}
-                        placeholder='informe a descrição...' 
-                        onChangeText={desc => this.setState({desc})}
-                        value={this.state.desc}/>
+                    {this.getDatePicker()}
 
                         <Picker
                             style={{ width: "100%" }}
@@ -113,13 +136,13 @@ export default class AddTask extends Component{
                         >
                             {this.state.eventtype !== "" ? (
                                 this.state.eventtype.map(evt => {
-                                    return <Picker.Item label={evt.type} value={evt.value} key={evt.id} />;
+                                    return <Picker.Item label={evt.type} value={evt.id} key={evt.id} />;
                                 })
                             ) : (
                                 <Picker.Item label="Loading..." value="0" />
                             )}
                         </Picker>
-
+                        
 
                         <Picker
                             style={{ width: "100%" }}
@@ -138,12 +161,8 @@ export default class AddTask extends Component{
                             ) : (
                                 <Picker.Item label="Loading..." value="0" />
                             )}
-                        </Picker>
-
-                       
+                        </Picker>                       
                 
-
-                        {this.getDatePicker()}
                     <View style={styles.buttons}>
                         <TouchableOpacity onPress={this.props.onCancel}>
                             <Text style={styles.button}>Cancelar</Text>
