@@ -9,6 +9,7 @@ import Menu from './screens/Menu'
 import commonStyles from './commonStyles'
 import Students from './screens/Students'
 import AllStudents from './screens/AllStudents'
+import EventDetails from './screens/EventDetails'
 
 const menuConfig ={
     initialRouteName: 'Today',
@@ -73,6 +74,14 @@ const menuRoutes = {
         screen: props => <AllStudents title='Todos Alunos' {...props} />,
         navigationOptions:{
             title: 'Todos Alunos'
+        }
+        
+    },
+    EventDetails:{
+        name: 'Event Details',
+        screen: props => <EventDetails title='Event Details' {...props} />,
+        navigationOptions:{
+            title: 'Event Details'
         }
         
     },
