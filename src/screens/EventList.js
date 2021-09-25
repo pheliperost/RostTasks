@@ -21,14 +21,14 @@ import tomorrowImage from '../../assets/imgs/tomorrow.jpg'
 import weekImage from '../../assets/imgs/week.jpg'
 import monthImage from '../../assets/imgs/month.jpg'
 import commonStyles from '../commonStyles'
-import Task from '../components/Task'
+import Event from '../components/Event'
 
 
 const initialState = { 
     showDoneTasks: true,
     showAddTask: false,
-    visibleTasks: [],
-    tasks:[]
+   
+    events:[]
 }
 
 export default class TaskList extends Component{
@@ -37,12 +37,12 @@ export default class TaskList extends Component{
     }
 
     componentDidMount = async () =>{
-        const stateString = await AsyncStorage.getItem('tasksState')
+      /*   const stateString = await AsyncStorage.getItem('tasksState')
         const savedState = JSON.parse(stateString) || initialState
         this.setState({
             showDoneTasks: savedState.showDoneTasks
         }, this.filterTasks)
-
+ */
         this.loadTasks()
     }
 
@@ -173,7 +173,7 @@ export default class TaskList extends Component{
                 <View style={styles.taskList}>
                    <FlatList data={this.state.visibleTasks}
                         keyExtractor={item => `${item.id}`}
-                        renderItem={({item})=> <Task {...item} toggleTask={this.toggleTask} onDelete={this.deleteTask} />}
+                        renderItem={({item})=> <Event {...item} toggleTask={this.toggleTask} onDelete={this.deleteTask} />}
                         />
                 </View>
                 <TouchableOpacity style={
