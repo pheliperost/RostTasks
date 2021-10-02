@@ -22,7 +22,9 @@ import weekImage from '../../assets/imgs/week.jpg'
 import monthImage from '../../assets/imgs/month.jpg'
 import commonStyles from '../commonStyles'
 import Event from '../components/Event'
+import EventDetails from '../screens/EventDetails'
 
+import { createStackNavigator, createAppContainer } from 'react-navigation';
 
 const initialState = { 
     showDoneTasks: true,
