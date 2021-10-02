@@ -2,6 +2,7 @@ import React from 'react'
 import {createAppContainer, createSwitchNavigator} from 'react-navigation'
 
 import {createDrawerNavigator} from 'react-navigation-drawer'
+import { createStackNavigator } from 'react-navigation-stack'
 import Auth from './screens/Auth'
 //import TaskList from './screens/TaskList'
 import EventList from './screens/EventList'
@@ -27,6 +28,7 @@ const menuConfig ={
         }
     }
 }
+
 
 const menuRoutes = {
     Today:{
@@ -78,14 +80,14 @@ const menuRoutes = {
         
     },
     EventDetails:{
-        name: 'Event Details',
-        screen: props => <EventDetails title='Event Details' {...props} />,
+        name: 'Event Details stack',
+        screen: props => <EventDetails title='Event Details stack' {...props} />,
         navigationOptions:{
-            title: 'Event Details'
+            title: 'Event Details stack'
         }
-        
-    },
+    }
 }
+
 
 const menuNavigator = createDrawerNavigator(menuRoutes, menuConfig)
 

@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import { 
     View,
     Text,
+    Button,
     ImageBackground, 
     StyleSheet, 
     FlatList, 
@@ -71,6 +72,10 @@ export default class EventDetails extends Component{
                     <View style={styles.titleBar}>
                         <Text style={styles.title}>{this.props.title}</Text>
                         <Text style={styles.subtitle}>{today}</Text>
+
+                        <Button title="Go to About" 
+                        onPress={() => this.props.navigation.navigate('Today')}
+                        />
                     </View>
 
                 </ImageBackground>
