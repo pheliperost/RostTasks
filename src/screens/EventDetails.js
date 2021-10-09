@@ -61,7 +61,10 @@ export default class EventDetails extends Component{
     }
 
     render(){
+
         const today = moment().locale('pt-br').format('ddd, D [de] MMMM')
+        const nome =  this.props.navigation.getParam('nome', 'nothing sent')
+        const profissao =  this.props.navigation.getParam('profissao', 'nothing sent')
         return(
             <View style={styles.container}>               
                 <ImageBackground source={this.getImage()}
@@ -72,6 +75,8 @@ export default class EventDetails extends Component{
                     <View style={styles.titleBar}>
                         <Text style={styles.title}>{this.props.title}</Text>
                         <Text style={styles.subtitle}>{today}</Text>
+                        <Text style={styles.subtitle}>{nome}</Text>
+                        <Text style={styles.subtitle}>{profissao}</Text>
 
                         <Button title="Go to About" 
                         onPress={() => this.props.navigation.navigate('Today')}

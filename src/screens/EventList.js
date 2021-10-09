@@ -177,7 +177,13 @@ export default class TaskList extends Component{
                 <View style={styles.taskList}>
                    <FlatList data={this.state.visibleTasks}
                         keyExtractor={item => `${item.id}`}
-                        renderItem={({item})=> <Event {...item} toggleTask={() => this.props.navigation.navigate('EventDetails')} onDelete={this.deleteTask}
+                        renderItem={({item})=> 
+                            <Event {...item} 
+                                toggleTask={() => this.props.navigation.navigate('EventDetails',
+                                    {
+                                        nome: 'tikprou',
+                                        profissao: 'cachorro loco'
+                                    })} onDelete={this.deleteTask}
                          />}
                         />
                 </View>
