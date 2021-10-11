@@ -181,8 +181,7 @@ export default class TaskList extends Component{
                             <Event {...item} 
                                 toggleTask={() => this.props.navigation.navigate('EventDetails',
                                     {
-                                        eventData: item,
-                                        profissao: 'cachorro loco'
+                                        eventData: item
                                     })} onDelete={this.deleteTask}
                          />}
                         />

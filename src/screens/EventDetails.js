@@ -66,8 +66,9 @@ export default class EventDetails extends Component{
     render(){
 
         const today = moment().locale('pt-br').format('ddd, D [de] MMMM')
-        const eventData =  this.props.navigation.getParam('eventData')
-        const profissao =  this.props.navigation.getParam('profissao', 'nothing sent')
+        const eventData =  this.props.navigation.getParam('eventData')        
+        const formattedDate = moment(eventData.date).locale('pt-br')
+        .format('DD/MM/YYYY HH:mm')
         return(
             <View style={styles.container}>               
                 <ImageBackground source={this.getImage()}
@@ -76,29 +77,30 @@ export default class EventDetails extends Component{
                       
                     </View>
                     <View style={styles.titleBar}>
-                        <Text style={styles.title}>{this.props.title}</Text>
+                        <Text style={styles.title}>{eventData.type} - {eventData.name}</Text>
                         <Text style={styles.subtitle}>{today}</Text>
-                        <Text style={styles.subtitle}>event id {JSON.stringify(eventData)}</Text>
-
-                        <Button title="Go to About" 
-                        onPress={() => this.props.navigation.navigate('Today')}
-                        />
                     </View>
 
                 </ImageBackground>
                 <View style={styles.container}>
-                    <Text > teste
-                     </Text>
+                    <Text >Date: {formattedDate}</Text>   
+                    <Text >Student Name: {eventData.name}</Text>                    
+                    <Text >Event Type: {eventData.type}</Text>
+                    <Text >Obs: {eventData.Obs}</Text>
                 </View>
+                <Button title="Go to About" 
+                        onPress={() => this.props.navigation.navigate('Today')}
+                        />
                 
             </View>
+            
         )
     }
 }
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1 
+        flex: 4
     },
     background: {
         flex: 3
