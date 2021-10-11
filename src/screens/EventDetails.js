@@ -40,7 +40,10 @@ export default class EventDetails extends Component{
         //this.loadTasks()
     }
 
-   
+   getDetails = () =>{
+        const eventData =  this.props.navigation.getParam('eventData')
+        const profissao =  this.props.navigation.getParam('profissao', 'nothing sent')
+    }
 
     getImage = () => {
         switch(this.props.daysAhead){
@@ -63,7 +66,7 @@ export default class EventDetails extends Component{
     render(){
 
         const today = moment().locale('pt-br').format('ddd, D [de] MMMM')
-        const eventId =  this.props.navigation.getParam('eventId', 'nothing sent')
+        const eventData =  this.props.navigation.getParam('eventData')
         const profissao =  this.props.navigation.getParam('profissao', 'nothing sent')
         return(
             <View style={styles.container}>               
@@ -75,8 +78,7 @@ export default class EventDetails extends Component{
                     <View style={styles.titleBar}>
                         <Text style={styles.title}>{this.props.title}</Text>
                         <Text style={styles.subtitle}>{today}</Text>
-                        <Text style={styles.subtitle}>{eventId}</Text>
-                        <Text style={styles.subtitle}>{profissao}</Text>
+                        <Text style={styles.subtitle}>event id {JSON.stringify(eventData)}</Text>
 
                         <Button title="Go to About" 
                         onPress={() => this.props.navigation.navigate('Today')}
