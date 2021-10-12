@@ -56,9 +56,18 @@ export default class AddEvent extends Component{
 
         }
       
-        alert( this.state.evtSelected)
-      //  this.props.onSave && this.props.onSave(newEvent)
-      //  this.setState({...initialState})
+        if(this.state.evtSelected == "" || this.state.evtSelected == 0){
+            alert("You need to select an event type first")
+        }else{
+            if(this.state.studentselected == "" || this.state.studentselected == 0){
+                alert("You need to select an student first")
+            }else{                
+                  this.props.onSave && this.props.onSave(newEvent)
+                  
+            }
+        }
+
+        //this.setState({...initialState})
     }
 
     getDatePicker = () => {
@@ -94,9 +103,11 @@ export default class AddEvent extends Component{
             onValueChange={(itemValue, itemIndex) =>
                 this.setState({
                     evtSelected: itemValue
-                })    
+                })      
             }
         >
+            <Picker.Item label='Please select an event type' value='0' />
+
             {this.state.eventtype !== "" ? (
                 this.state.eventtype.map(evt => {
                     return <Picker.Item label={evt.type} value={evt.id} key={evt.id} />;
@@ -123,6 +134,8 @@ export default class AddEvent extends Component{
                                 })
                             }
                         >
+                            <Picker.Item label='Please select an student' value='0' />
+
                             {this.state.studentsDropDown !== "" ? (
                                 this.state.studentsDropDown.map(std => {
                                     return <Picker.Item label={std.name} value={std.id} key={std.id} />;
