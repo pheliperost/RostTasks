@@ -16,7 +16,7 @@ import Icon from 'react-native-vector-icons/FontAwesome'
 
 import { server, showError } from '../common'
 import AsyncStorage from "@react-native-community/async-storage"
-import AddEvent from './AddTask'
+import AddTask from './AddTask'
 import todayImage from '../../assets/imgs/today.jpg'
 import tomorrowImage from '../../assets/imgs/tomorrow.jpg'
 import weekImage from '../../assets/imgs/week.jpg'
