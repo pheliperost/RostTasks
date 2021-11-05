@@ -11,6 +11,7 @@ import commonStyles from './commonStyles'
 import Students from './screens/Students'
 import AllStudents from './screens/AllStudents'
 import EventDetails from './screens/EventDetails'
+import TesteCalendar from './screens/TesteCalendar'
 
 const menuConfig ={
     initialRouteName: 'Today',
@@ -84,6 +85,13 @@ const menuRoutes = {
         screen: props => <EventDetails title='Event Details stack' {...props} />,
         navigationOptions:{
             title: 'Event Details stack'
+        }
+    },
+    TesteCalendar:{
+        name: 'teste calendar',
+        screen: props => <TesteCalendar title='teste calendar' {...props} />,
+        navigationOptions:{
+            title: 'teste calendar'
         }
     }
 }
