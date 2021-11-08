@@ -56,14 +56,6 @@ const menuRoutes = {
         }
         
     },
-    Month:{
-        name: 'Month',
-        screen: props => <EventList title='Mês' daysAhead={30} {...props} />,
-        navigationOptions:{
-            title: 'Mês'
-        }
-        
-    },
     Students:{
         name: 'Students',
         screen: props => <Students title='STu' {...props} />,

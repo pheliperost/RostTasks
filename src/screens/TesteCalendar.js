@@ -5,19 +5,38 @@ import {Card, Avatar} from 'react-native-paper';
 import moment from 'moment'
 
 
+const initialState = {
+  items:{
+    '2021-11-22': [{name: 'item 1 - any js object'}],
+    '2021-11-23': [{name: 'item 2 - any js object', height: 80}],
+    '2021-11-24': [],
+    '2021-11-25': [{name: 'item 3 - any js object'}, {name: 'any js object'}]
+  }
+}
 
 
-    
 export default class TesteCalendar extends Component{
   state = {
-    items:{
-      '2021-11-22': [{name: 'item 1 - any js object'}],
-      '2021-11-23': [{name: 'item 2 - any js object', height: 80}],
-      '2021-11-24': [],
-      '2021-11-25': [{name: 'item 3 - any js object'}, {name: 'any js object'}]
-    }
+    ...initialState
   }
 
+
+  componentDidMount = async () =>{
+ 
+    this.startingup()
+   
+  }
+
+ 
+
+startingup = () =>{
+  const newitem = {'2021-09-29':[{name: 'item 4 - any js object'}]};//{'2021-09-29': {name:'meu aniversario'}};
+  this.setState({items: {...this.state.items, 
+    '2021-09-29': [{name: 'item 4 - any js object'},{name: 'item 5 - agora foi carai'}]
+  }}, () => console.log({...this.state.items}))
+
+    
+}
     /*
   timeToString = (time) => {
     const date = new Date(time);
@@ -76,7 +95,6 @@ export default class TesteCalendar extends Component{
         }
         
         render(){
-
             return(
             <View style={{flex: 1}}>
                 <Agenda
