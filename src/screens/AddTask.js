@@ -46,7 +46,6 @@ export default class AddEvent extends Component{
             date: this.state.date,
             startedAt: this.state.date,
             endedAt: this.state.date,
-            endedAtSch: this.state.date,
             eventType: this.state.evtSelected,
             Obs: 'teste',            
             student: this.state.studentselected
