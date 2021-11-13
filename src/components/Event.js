@@ -53,7 +53,7 @@ export default props =>{
                 <View>
                     <Text style={[styles.desc, doneOrNotStyle]}>
                         {props.name} -  
-                        {moment(props.StartedAtSch).locale('pt-br')
+                        {moment(props.startedAt).locale('pt-br')
                         .format('ddd, D [de] MMMM')}</Text>
                     <Text style={styles.date}>{formattedDate}</Text>
                 </View>

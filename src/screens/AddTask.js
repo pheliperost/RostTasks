@@ -15,8 +15,6 @@ const initialState = {
         showDatePicker: false, 
         eventtype: '', 
         studentsDropDown: '',
-        StartedAtSch:'',
-        endedAtSch:'',
         startedAt:'',
         endedAt:'',
         Obs: 'teste',
@@ -46,10 +44,9 @@ export default class AddEvent extends Component{
     save = () =>{
         const newEvent = {
             date: this.state.date,
-            StartedAtSch: datetimeNow,
-            startedAt: datetimeNow,
-            endedAt: datetimeNow,
-            endedAtSch: datetimeNow,
+            startedAt: this.state.date,
+            endedAt: this.state.date,
+            endedAtSch: this.state.date,
             eventType: this.state.evtSelected,
             Obs: 'teste',            
             student: this.state.studentselected

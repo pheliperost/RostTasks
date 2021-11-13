@@ -96,10 +96,8 @@ export default class TaskList extends Component{
            
             await axios.post(`${server}/events`,{
                 date: newEvent.date,
-                StartedAtSch: newEvent.StartedAtSch,
                 startedAt: newEvent.startedAt,
                 endedAt: newEvent.endedAt,
-                endedAtSch: newEvent.endedAtSch,
                 eventType:newEvent.eventType,
                 Obs:"teste",
                 student:newEvent.student
