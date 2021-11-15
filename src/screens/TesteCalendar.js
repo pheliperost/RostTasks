@@ -38,7 +38,7 @@ startingup = () =>{
   const newitem = {'2021-09-29':[{name: 'item 4 - any js object'}]};//{'2021-09-29': {name:'meu aniversario'}};
   this.setState({items: {...this.state.items, 
     '2021-09-29': [{name: 'item 4 - any js object'},{name: 'item 5 - agora foi carai'}]
-  }}, //() => console.log({...this.state.items})
+  }}, 
   )    
 }
 
@@ -69,7 +69,12 @@ loadEvents =  async () => {
          
 
           return (
-            <TouchableOpacity style={{marginRight: 10, marginTop: 17}}>
+            <TouchableOpacity style={{marginRight: 10, marginTop: 17}}
+            onPress={() => this.props.navigation.navigate('EventDetails',
+            {
+                eventData: item
+            })} 
+            >
               <Card>
                 <Card.Content>
                   <View
