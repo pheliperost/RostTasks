@@ -27,7 +27,7 @@ export default class TesteCalendar extends Component{
 
   componentDidMount = async () =>{
  
-    this.startingup()
+   // this.startingup()
     this.loadEvents()
    
   }
@@ -44,73 +44,27 @@ startingup = () =>{
 
 callback = (acumulador, valor) => {
   const formattedDate = moment.utc(valor.date).format("YYYY-MM-DD");
-  acumulador[formattedDate] = this.state.RawEvents.filter((item) => moment.utc(item.date).format("YYYY-MM-DD") === formattedDate )// {valor}
+  acumulador[formattedDate] = this.state.RawEvents.filter((item) => moment.utc(item.date).format("YYYY-MM-DD") === formattedDate )
   return acumulador
 };
 
 
-formatEvent = () => {
+formatItems = () => {
 
-
-const valorInicial = {};
-const EventsFormated = this.state.RawEvents.reduce(this.callback, valorInicial);
-  console.log('----ReturnedEvents:')
-  console.log(this.state.RawEvents);
-
-
-  console.log('-----Reduced:')
-console.log(EventsFormated) //camaro :)
-
-this.setState(formatEvent, EventsFormated)
-
+  const EventsFormated = this.state.RawEvents.reduce(this.callback, {});
+  this.setState({formatEvent: EventsFormated})
  
 }
 
-loadEvents = async () => {
+loadEvents =  async () => {
   try{         
       const res = await axios.get(`${server}/events`)
-      this.setState({RawEvents: res.data}, this.formatEvent)
+      this.setState({RawEvents: res.data}, this.formatItems)
   }catch(e){
       showError(e)
   }
 }
 
-
-    /*
-  timeToString = (time) => {
-    const date = new Date(time);
-    return date.toISOString().split('T')[0];
-  };
-
-   
-
-        loadItems = (day) => {
-          setTimeout(() => {
-              const itemsF;
-              for (let i = -15; i < 85; i++) {
-              const time = day.timestamp + i * 24 * 60 * 60 * 1000;
-              const strTime = timeToString(time);
-              if (!itemsF[strTime]) {
-                  itemsF[strTime] = [];
-                  
-                  const numItems = Math.floor(Math.random() * 3 + 1);
-                  for (let j = 0; j < numItems; j++) {
-                    itemsF[strTime].push({
-                      name: 'Item for ' + strTime + ' #' + j,
-                      height: Math.max(50, Math.floor(Math.random() * 150)),
-                  });
-                  }
-              }
-              }
-              const newItems = {};
-              Object.keys(itemsF).forEach((key) => {
-              newItems[key] = itemsF[key];
-              });
-              this.setState({items: newItems})
-          }, 1000);
-        }
-       
- */
         renderItem = (item) => {
          
 
