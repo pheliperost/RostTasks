@@ -3,7 +3,8 @@ import { View, TouchableOpacity, Text } from 'react-native';
 import { Agenda } from 'react-native-calendars';
 import {Card, Avatar} from 'react-native-paper';
 import moment from 'moment'
-
+import axios from 'axios'
+import { server, showError } from '../common'
 
 const initialState = {
   items:{
@@ -12,19 +13,22 @@ const initialState = {
     '2021-11-24': [],
     '2021-11-25': [{name: 'item 3 - any js object'}, {name: 'any js object'}]
   },
-  RawEvents: []
+  RawEvents: [],
+  formatEvent: {}
 }
 
+
+  
 
 export default class TesteCalendar extends Component{
   state = {
     ...initialState
   }
 
-
   componentDidMount = async () =>{
  
     this.startingup()
+    this.loadEvents()
    
   }
 
@@ -34,25 +38,43 @@ startingup = () =>{
   const newitem = {'2021-09-29':[{name: 'item 4 - any js object'}]};//{'2021-09-29': {name:'meu aniversario'}};
   this.setState({items: {...this.state.items, 
     '2021-09-29': [{name: 'item 4 - any js object'},{name: 'item 5 - agora foi carai'}]
-  }}, () => console.log({...this.state.items}))    
+  }}, //() => console.log({...this.state.items})
+  )    
 }
 
-eventsSliceUp = () =>{
-  const currentItem = null;
-  
+callback = (acumulador, valor) => {
+  const formattedDate = moment.utc(valor.date).format("YYYY-MM-DD");
+  acumulador[formattedDate] = this.state.RawEvents.filter((item) => moment.utc(item.date).format("YYYY-MM-DD") === formattedDate )// {valor}
+  return acumulador
+};
+
+
+formatEvent = () => {
+
+
+const valorInicial = {};
+const EventsFormated = this.state.RawEvents.reduce(this.callback, valorInicial);
+  console.log('----ReturnedEvents:')
+  console.log(this.state.RawEvents);
+
+
+  console.log('-----Reduced:')
+console.log(EventsFormated) //camaro :)
+
+this.setState(formatEvent, EventsFormated)
+
+ 
 }
 
 loadEvents = async () => {
-  try{
-      const maxDate = moment()
-          .add({days: this.props.daysAhead})
-          .format('YYYY-MM-DD 23:59:59')
+  try{         
       const res = await axios.get(`${server}/events`)
-      this.setState({RawEvents: res.data}, this.filterTasks)
+      this.setState({RawEvents: res.data}, this.formatEvent)
   }catch(e){
       showError(e)
   }
 }
+
 
     /*
   timeToString = (time) => {
@@ -115,7 +137,7 @@ loadEvents = async () => {
             return(
             <View style={{flex: 1}}>
                 <Agenda
-                    items={this.state.items}
+                    items={this.state.formatEvent}
                     //loadItemsForMonth={loadItems}
                     selected={'2021-11-16'}
                     renderItem={this.renderItem}
