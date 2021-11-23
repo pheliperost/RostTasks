@@ -8,7 +8,9 @@ import {
     FlatList, 
     TouchableOpacity, 
     Platform,
-    Alert } from 'react-native'
+    Alert,
+    TextInput
+ } from 'react-native'
 import moment from 'moment'
 import axios from 'axios'
 import 'moment/locale/pt-br'
@@ -26,23 +28,37 @@ import Event from '../components/Event'
 
 
 
+const initialState = { 
+        desc: '', 
+        date: new Date(), 
+        showDatePicker: false, 
+        eventtype: '', 
+        studentsDropDown: '',
+        startedAt:'',
+        endedAt:'',
+        Obs: 'teste',
+        eventType: '',
+        student: '',
+        evtSelected: '',
+        studentselected: ''
+
+    }
 
 export default class EventDetails extends Component{
    
+    state = {
+        ...initialState
 
-    componentDidMount = async () =>{
-      /*   const stateString = await AsyncStorage.getItem('tasksState')
-        const savedState = JSON.parse(stateString) || initialState
-        this.setState({
-            showDoneTasks: savedState.showDoneTasks
-        }, this.filterTasks)
- */
-        //this.loadTasks()
     }
 
-   getDetails = () =>{
+    componentDidMount = async () =>{
+        
         const eventData =  this.props.navigation.getParam('eventData')
-        const profissao =  this.props.navigation.getParam('profissao', 'nothing sent')
+
+        this.setState({type: eventData.eventType})
+        this.setState({date: eventData.date})
+        this.setState({name: eventData.name})
+        this.setState({Obs: eventData.Obs})
     }
 
     getImage = () => {
@@ -65,9 +81,8 @@ export default class EventDetails extends Component{
 
     render(){
 
-        const today = moment().locale('pt-br').format('ddd, D [de] MMMM')
-        const eventData =  this.props.navigation.getParam('eventData')        
-        const formattedDate = moment(eventData.date).locale('pt-br')
+        const today = moment().locale('pt-br').format('ddd, D [de] MMMM')   
+        const formattedDate = moment(this.state.date).locale('pt-br')
         .format('DD/MM/YYYY HH:mm')
         return(
             <View style={styles.container}>               
@@ -77,16 +92,22 @@ export default class EventDetails extends Component{
                       
                     </View>
                     <View style={styles.titleBar}>
-                        <Text style={styles.title}>{eventData.type} - {eventData.name}</Text>
+                        <Text style={styles.title}>{this.state.type} - {this.state.name}</Text>
                         <Text style={styles.subtitle}>{today}</Text>
                     </View>
 
                 </ImageBackground>
                 <View style={styles.container}>
-                    <Text >Date: {formattedDate}</Text>   
-                    <Text >Student Name: {eventData.name}</Text>                    
-                    <Text >Event Type: {eventData.type}</Text>
-                    <Text >Obs: {eventData.Obs}</Text>
+                    <Text >Date: {formattedDate}</Text>  
+                    
+                    <Text >Student Name: {this.state.name}</Text>                    
+                    <Text >Event Type: {this.state.type}</Text>
+                    <Text >Obs: {this.state.Obs}</Text>
+                    <TextInput
+                        style={styles.input}
+                        onChangeText={(param)=> this.setState({Obs:param})}
+                        value={this.state.Obs}
+                    /> 
                 </View>
                 <Button title="Go to About" 
                         onPress={() => this.props.navigation.navigate('Today')}
