@@ -29,18 +29,19 @@ import Event from '../components/Event'
 
 
 const initialState = { 
-        desc: '', 
+        desc: null, 
         date: new Date(), 
         showDatePicker: false, 
-        eventtype: '', 
-        studentsDropDown: '',
-        startedAt:'',
-        endedAt:'',
-        Obs: 'teste',
-        eventType: '',
-        student: '',
-        evtSelected: '',
-        studentselected: ''
+        eventtype: null,
+        studentsDropDown: null,
+        startedAt: null,
+        endedAt: null,
+        Obs: null,
+        eventType: null,
+        student: null,
+        evtSelected: null,
+        studentselected: null,
+        id: null
 
     }
 
@@ -55,11 +56,20 @@ export default class EventDetails extends Component{
         
         const eventData =  this.props.navigation.getParam('eventData')
 
-        this.setState({type: eventData.eventType})
+        this.setState({eventType: eventData.eventType})
         this.setState({date: eventData.date})
         this.setState({name: eventData.name})
+        this.setState({student: eventData.student})
+        this.setState({startedAt: eventData.startedAt})
+        this.setState({endedAt: eventData.endedAt})
         this.setState({Obs: eventData.Obs})
+        this.setState({id: eventData.id})
+
+        console.log("component did mount ")
+        console.log({...eventData})
+    
     }
+    
 
     getImage = () => {
         switch(this.props.daysAhead){
@@ -78,6 +88,36 @@ export default class EventDetails extends Component{
             default: return commonStyles.colors.month
         }
     }
+
+
+    saveChanges = async eventId => {
+        /*  if(!newTask.desc || !newTask.desc.trim()){
+              Alert.alert('Dados Inválidos','Descrição não informada!')
+              return
+          }
+          
+  */
+         
+
+          try{
+             
+              await axios.post(`${server}/events/${eventId}`,{
+                  id: this.state.id,
+                  date: this.state.date,
+                  startedAt: this.state.startedAt,
+                  endedAt: this.state.endedAt,
+                  eventType:this.state.eventType,
+                  Obs:this.state.Obs,
+                  student:this.state.student
+              })       
+             
+  
+          }catch(e){
+              showError(e)
+          }          
+         
+      }
+   
 
     render(){
 
@@ -99,6 +139,7 @@ export default class EventDetails extends Component{
                 </ImageBackground>
                 <View style={styles.container}>
                     <Text >Date: {formattedDate}</Text>  
+                    <Text >ID: {this.state.id}</Text>  
                     
                     <Text >Student Name: {this.state.name}</Text>                    
                     <Text >Event Type: {this.state.type}</Text>
@@ -109,9 +150,15 @@ export default class EventDetails extends Component{
                         value={this.state.Obs}
                     /> 
                 </View>
-                <Button title="Go to About" 
+
+                <Button title="Salvar Alterações" 
+                        onPress={() => this.saveChanges(this.state.id)}
+                        />
+
+                <Button title="Home" 
                         onPress={() => this.props.navigation.navigate('Today')}
                         />
+
                 
             </View>
             
