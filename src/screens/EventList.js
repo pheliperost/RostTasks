@@ -8,6 +8,7 @@ import {
     FlatList, 
     TouchableOpacity, 
     Platform,
+    SectionList,
     Alert } from 'react-native'
 import moment from 'moment'
 import axios from 'axios'
@@ -149,6 +150,41 @@ export default class TaskList extends Component{
 
     render(){
         const today = moment().locale('pt-br').format('ddd, D [de] MMMM')
+        
+const newTasks = [
+    { id: 2, title: 'Wax on' },
+    { id: 3, title: 'Wax off' },
+    { id: 17, title: 'Wax on' },
+    { id: 18, title: 'Wax off' },
+    { id: 19, title: 'Wax on' },
+    { id: 20, title: 'Wax off' },
+    { id: 21, title: 'Wax on' },
+    { id: 22, title: 'Wax off' },
+    { id: 23, title: 'Wax on' },
+    { id: 24, title: 'Wax off' },
+    { id: 25, title: 'Wax on' },
+    { id: 26, title: 'Wax off' },
+    { id: 27, title: 'Wax on' },
+    { id: 28, title: 'Wax off' },
+  ];
+  
+  const completedTasks = [
+    { id: 1, title: 'Watch Karate Kid' },
+    { id: 4, title: 'Watch Karate Kid' },
+    { id: 5, title: 'Watch Karate Kid' },
+    { id: 6, title: 'Watch Karate Kid' },
+    { id: 7, title: 'Watch Karate Kid' },
+    { id: 8, title: 'Watch Karate Kid' },
+    { id: 9, title: 'Watch Karate Kid' },
+    { id: 10, title: 'Watch Karate Kid' },
+    { id: 11, title: 'Watch Karate Kid' },
+    { id: 12, title: 'Watch Karate Kid' },
+    { id: 13, title: 'Watch Karate Kid' },
+    { id: 14, title: 'Watch Karate Kid' },
+    { id: 15, title: 'Watch Karate Kid' },
+    { id: 16, title: 'Watch Karate Kid' },
+  ];
+  
         return(
             <View style={styles.container}>
                 <AddEvent isVisible={this.state.showAddTask}
@@ -173,6 +209,24 @@ export default class TaskList extends Component{
 
                 </ImageBackground>
                 <View style={styles.taskList}>
+                    <SectionList
+                    sections={[
+                        {title: 'New Tasks', data: newTasks},
+                        {title: 'Completed Task', data: completedTasks},
+                    ]}
+                    renderItem={({item})=>(
+                        <View key={item.id} styles={styles.row}>
+                            <Text>{item.title}</Text>
+                        </View>
+                    )}
+                    renderSectionHeader={({ section }) => (
+                        <View style={styles.sectionHeader}>
+                          <Text>{section.title}</Text>
+                        </View>
+                      )}
+                      keyExtractor={item => item.id}
+                    />
+
                    <FlatList data={this.state.visibleTasks}
                         keyExtractor={item => `${item.id}`}
                         renderItem={({item})=> 
@@ -241,5 +295,14 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center'
 
+    },
+    row: {
+        paddingHorizontal: 20,
+        paddingVertical: 10,
+      },
+    sectionHeader: {
+        backgroundColor: '#efefef',
+        paddingHorizontal: 20,
+        paddingVertical: 10,
     }
 });
