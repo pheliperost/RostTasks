@@ -1,12 +1,12 @@
 import React, {Component} from 'react'
-import { 
+import {
     View,
     Text,
     Button,
-    ImageBackground, 
-    StyleSheet, 
-    FlatList, 
-    TouchableOpacity, 
+    ImageBackground,
+    StyleSheet,
+    FlatList,
+    TouchableOpacity,
     Platform,
     SectionList,
     Alert } from 'react-native'
@@ -28,10 +28,10 @@ import EventDetails from '../screens/EventDetails'
 
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 
-const initialState = { 
+const initialState = {
     showDoneTasks: true,
     showAddTask: false,
-   
+
     events:[]
 }
 
@@ -55,7 +55,7 @@ export default class TaskList extends Component{
             const maxDate = moment()
                 .add({days: this.props.daysAhead})
                 .format('YYYY-MM-DD 23:59:59')
-            const res = await axios.get(`${server}/events`)
+            const res = await axios.get(`${server}/events?${maxDate}`)
             this.setState({tasks: res.data}, this.filterTasks)
         }catch(e){
             showError(e)
@@ -72,7 +72,7 @@ export default class TaskList extends Component{
             visibleTasks = [...this.state.tasks]
         }else{
             const pending = task => task.doneAt === null
-            visibleTasks = this.state.tasks.filter(pending) 
+            visibleTasks = this.state.tasks.filter(pending)
         }
 
         this.setState({visibleTasks})
@@ -92,13 +92,8 @@ export default class TaskList extends Component{
     }
 
     addTask = async newEvent =>{
-      /*  if(!newTask.desc || !newTask.desc.trim()){
-            Alert.alert('Dados Inválidos','Descrição não informada!')
-            return
-        }
-*/
         try{
-           
+
             await axios.post(`${server}/events`,{
                 date: newEvent.date,
                 startedAt: newEvent.startedAt,
@@ -108,26 +103,26 @@ export default class TaskList extends Component{
                 student:newEvent.student
 
 
-            })           
+            })
 
             this.setState({ showAddTask: false}, this.loadTasks)
 
         }catch(e){
             showError(e)
         }
-        
-       
+
+
     }
 
     deleteTask = async taskId => {
 
-        try{           
-            await axios.delete(`${server}/events/${taskId}`)           
+        try{
+            await axios.delete(`${server}/events/${taskId}`)
             this.loadTasks()
         }catch(e){
             showError(e)
         }
-        
+
     }
 
     getImage = () => {
@@ -150,7 +145,7 @@ export default class TaskList extends Component{
 
     render(){
         const today = moment().locale('pt-br').format('ddd, D [de] MMMM')
-        
+
 const newTasks = [
     { id: 2, title: 'Wax on' },
     { id: 3, title: 'Wax off' },
@@ -167,7 +162,7 @@ const newTasks = [
     { id: 27, title: 'Wax on' },
     { id: 28, title: 'Wax off' },
   ];
-  
+
   const completedTasks = [
     { id: 1, title: 'Watch Karate Kid' },
     { id: 4, title: 'Watch Karate Kid' },
@@ -184,7 +179,7 @@ const newTasks = [
     { id: 15, title: 'Watch Karate Kid' },
     { id: 16, title: 'Watch Karate Kid' },
   ];
-  
+
         return(
             <View style={styles.container}>
                 <AddEvent isVisible={this.state.showAddTask}
@@ -194,11 +189,11 @@ const newTasks = [
                 style={styles.background}>
                     <View style={styles.iconBar}>
                         <TouchableOpacity onPress={() => this.props.navigation.openDrawer()} >
-                            <Icon name='bars' 
+                            <Icon name='bars'
                             size={20} color={commonStyles.colors.secundary}/>
                         </TouchableOpacity>
                         <TouchableOpacity onPress={this.toggleFilter} >
-                            <Icon name={this.state.showDoneTasks ? 'eye' : 'eye-slash'} 
+                            <Icon name={this.state.showDoneTasks ? 'eye' : 'eye-slash'}
                             size={20} color={commonStyles.colors.secundary}/>
                         </TouchableOpacity>
                     </View>
@@ -209,28 +204,12 @@ const newTasks = [
 
                 </ImageBackground>
                 <View style={styles.taskList}>
-                    <SectionList
-                    sections={[
-                        {title: 'New Tasks', data: newTasks},
-                        {title: 'Completed Task', data: completedTasks},
-                    ]}
-                    renderItem={({item})=>(
-                        <View key={item.id} styles={styles.row}>
-                            <Text>{item.title}</Text>
-                        </View>
-                    )}
-                    renderSectionHeader={({ section }) => (
-                        <View style={styles.sectionHeader}>
-                          <Text>{section.title}</Text>
-                        </View>
-                      )}
-                      keyExtractor={item => item.id}
-                    />
+                   
 
                    <FlatList data={this.state.visibleTasks}
                         keyExtractor={item => `${item.id}`}
-                        renderItem={({item})=> 
-                            <Event {...item} 
+                        renderItem={({item})=>
+                            <Event {...item}
                                 toggleTask={() => this.props.navigation.navigate('EventDetails',
                                     {
                                         eventData: item
@@ -239,7 +218,7 @@ const newTasks = [
                         />
                 </View>
                 <TouchableOpacity style={
-                    [styles.addButton, 
+                    [styles.addButton,
                     {backgroundColor: this.getColor()}]}
                     onPress={()=> this.setState({showAddTask: true})}
                     activeOpacity={0.7}>
@@ -253,7 +232,7 @@ const newTasks = [
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1 
+        flex: 1
     },
     background: {
         flex: 3

@@ -18,8 +18,8 @@ export default props =>{
     {textDecorationLine: 'line-through'} : {}
 
     const date = props.doneAt ? props.doneAt : props.estimateAt
-    const formattedDate = moment(date).locale('pt-br')
-        .format('ddd, D [de] MMMM')
+    const formattedDate = moment(props.start).locale('pt-br')
+        .format('DD/MM/YY - HH:mm')
 
     const getRightContent = () => {
         return (
@@ -52,9 +52,7 @@ export default props =>{
                 </TouchableWithoutFeedback>
                 <View>
                     <Text style={[styles.desc, doneOrNotStyle]}>
-                        {props.name} -  
-                        {moment(props.startedAt).locale('pt-br')
-                        .format('ddd, D [de] MMMM')}</Text>
+                        {props.summary}</Text>
                     <Text style={styles.date}>{formattedDate}</Text>
                 </View>
                 

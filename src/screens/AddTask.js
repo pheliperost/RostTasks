@@ -37,8 +37,6 @@ export default class AddEvent extends Component{
 
     componentDidMount = async () =>{
         
-       this.loadEventTypeItems()
-       this.loadStudentsItems()
     }
 
     save = () =>{
@@ -63,7 +61,6 @@ export default class AddEvent extends Component{
             }
         }
 
-        //this.setState({...initialState})
     }
 
     getDatePicker = () => {
@@ -90,79 +87,6 @@ export default class AddEvent extends Component{
             return datePicker
     }
 
-    getEventTypePicker = () =>{
-        let eventTypePicker = 
-        <Picker
-            style={{ width: "100%" }}
-            mode="dropdown"
-            selectedValue={this.state.evtSelected}                        
-            onValueChange={(itemValue, itemIndex) =>
-                this.setState({
-                    evtSelected: itemValue
-                })      
-            }
-        >
-            <Picker.Item label='Please select an event type' value='0' />
-
-            {this.state.eventtype !== "" ? (
-                this.state.eventtype.map(evt => {
-                    return <Picker.Item label={evt.type} value={evt.id} key={evt.id} />;
-                })
-            ) : (
-                <Picker.Item label="Loading..." value="0" />
-            )}
-        </Picker>
-
-        return eventTypePicker
-
-    }
-
-
-    getStudentPicker = () =>{
-        let studentPicker = 
-                        <Picker
-                            style={{ width: "100%" }}
-                            mode="dropdown"
-                            selectedValue={this.state.studentselected}                        
-                            onValueChange={(itemValue1, itemIndex1) =>
-                                this.setState({
-                                    studentselected: itemValue1
-                                })
-                            }
-                        >
-                            <Picker.Item label='Please select an student' value='0' />
-
-                            {this.state.studentsDropDown !== "" ? (
-                                this.state.studentsDropDown.map(std => {
-                                    return <Picker.Item label={std.name} value={std.id} key={std.id} />;
-                                })
-                            ) : (
-                                <Picker.Item label="Loading..." value="0" />
-                            )}
-                        </Picker>   
-
-        return studentPicker
-
-    }
-
-    loadEventTypeItems = async () => {
-        try{
-            const res = await axios.get(`${server}/eventtype`)          
-            this.setState({eventtype: res.data})            
-        }catch(e){
-            showError(e)
-        }
-    }
-
-    loadStudentsItems = async () => {
-        try{
-            
-            const res = await axios.get(`${server}/students`)
-            this.setState({studentsDropDown: res.data})            
-        }catch(e){
-            showError(e)
-        }        
-    }
 
     render(){
         return(
@@ -178,23 +102,6 @@ export default class AddEvent extends Component{
                     </View>
                 </TouchableWithoutFeedback>
 
-                <View style={styles.container}>
-                    <Text style={styles.header}>Novo Evento</Text>
-
-                    {this.getDatePicker()}
-                    {this.getEventTypePicker()}
-                    {this.getStudentPicker()}
-                
-                    <View style={styles.buttons}>
-                        <TouchableOpacity onPress={this.props.onCancel}>
-                            <Text style={styles.button}>Cancelar</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={this.save}>
-                            <Text style={styles.button}>Salvar</Text>
-                        </TouchableOpacity>
-                    </View>
-
-                </View>
 
                 <TouchableWithoutFeedback
                     onPress={this.props.onCancel}>

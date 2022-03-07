@@ -1,7 +1,7 @@
 import React, { Component, useState } from 'react';
 import { View, TouchableOpacity, Text } from 'react-native';
 import { Agenda } from 'react-native-calendars';
-import {Card, Avatar} from 'react-native-paper';
+import {Card, Avatar, Divider} from 'react-native-paper';
 import moment from 'moment'
 import axios from 'axios'
 import { server, showError } from '../common'
@@ -16,10 +16,6 @@ const initialState = {
   RawEvents: [],
   formatEvent: {}
 }
-
-
-  
-
 export default class TesteCalendar extends Component{
   state = {
     ...initialState
@@ -43,17 +39,15 @@ startingup = () =>{
 }
 
 callback = (acumulador, valor) => {
-  const formattedDate = moment.utc(valor.date).format("YYYY-MM-DD");
-  acumulador[formattedDate] = this.state.RawEvents.filter((item) => moment.utc(item.date).format("YYYY-MM-DD") === formattedDate )
+  const formattedDate = moment.utc(valor.start).format("YYYY-MM-DD");
+  acumulador[formattedDate] = this.state.RawEvents.filter((item) => moment.utc(item.start).format("YYYY-MM-DD") === formattedDate )
   return acumulador
 };
 
 
 formatItems = () => {
-
   const EventsFormated = this.state.RawEvents.reduce(this.callback, {});
-  this.setState({formatEvent: EventsFormated})
- 
+  this.setState({formatEvent: EventsFormated}) 
 }
 
 loadEvents =  async () => {
@@ -66,16 +60,18 @@ loadEvents =  async () => {
 }
 
         renderItem = (item) => {
-         
-
           return (
             <TouchableOpacity style={{marginRight: 10, marginTop: 17}}
             onPress={() => this.props.navigation.navigate('EventDetails',
             {
                 eventData: item
-            })} 
+            })}  
             >
               <Card>
+                <Card.Title 
+                  title={item.summary}
+                  subtitle={item.hour}
+                  />
                 <Card.Content>
                   <View
                     style={{
@@ -83,8 +79,9 @@ loadEvents =  async () => {
                       justifyContent: 'space-between',
                       alignItems: 'center',
                     }}>
-                    <Text>{item.name}</Text>
-                    <Avatar.Text label="J" />
+                     {/* <Avatar.Image label="J" /> */}
+                     
+                  <Divider />
                   </View>
                 </Card.Content>
               </Card>
@@ -93,12 +90,15 @@ loadEvents =  async () => {
         }
         
         render(){
+          console.log("this.state.formatEvent")
+          console.log(this.state.formatEvent)
             return(
+                           
             <View style={{flex: 1}}>
                 <Agenda
                     items={this.state.formatEvent}
                     //loadItemsForMonth={loadItems}
-                    selected={'2021-11-16'}
+                    selected={'2022-03-07'}
                     renderItem={this.renderItem}
                     />            
             </View>
